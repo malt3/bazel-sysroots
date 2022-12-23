@@ -1,0 +1,40 @@
+
+name: Build sysroot images
+on: [push, workflow_dispatch]
+jobs:
+  jukebox:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [x86_64, aarch64]
+        os: [fedora~37, ubuntu~kinetic, ubuntu~jammy, debian~bullseye]
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+
+      - name: setup-mkosi
+        uses: systemd/mkosi@5181ea7ac20c0bcb3116d296ab6b8b7a3380e16e
+
+      - name: split-os
+        id: split-os
+        shell: bash
+        env:
+          MATRIX_OS: ${{ matrix.os }}
+        run: |
+          IFS='~' read -ra OS <<< "${MATRIX_OS}"
+          echo "distribution=${OS[0]}" >> "$GITHUB_OUTPUT"
+          echo "release=${OS[1]}" >> "$GITHUB_OUTPUT"
+
+      - name: Build image
+        env:
+          ARCH: ${{ matrix.arch }}
+          DISTRIBUTION: ${{ steps.split-os.distribution }}
+          RELEASE: ${{ steps.split-os.release }}
+        run: |
+          mkosi --architecture "${ARCH}" --distribution "${DISTRIBUTION}" --release "${RELEASE}"
+
+      # - name: Upload raspbian
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: raspbian
+      #     path: raspbian/image.zip
