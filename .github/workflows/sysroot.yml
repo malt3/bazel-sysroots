@@ -2,12 +2,13 @@
 name: Build sysroot images
 on: [push, workflow_dispatch]
 jobs:
-  jukebox:
+  sysroot:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         arch: [x86_64, aarch64]
-        os: [fedora~37, ubuntu~kinetic, ubuntu~jammy, debian~bullseye]
+        os: [fedora~37, ubuntu~kinetic, ubuntu~jammy, debian~testing, debian~bullseye, arch~rolling]
     steps:
       - name: Check out
         uses: actions/checkout@v3
@@ -28,10 +29,10 @@ jobs:
       - name: Build image
         env:
           ARCH: ${{ matrix.arch }}
-          DISTRIBUTION: ${{ steps.split-os.distribution }}
-          RELEASE: ${{ steps.split-os.release }}
+          DISTRIBUTION: ${{ steps.split-os.outputs.distribution }}
+          RELEASE: ${{ steps.split-os.outputs.release }}
         run: |
-          mkosi --architecture "${ARCH}" --distribution "${DISTRIBUTION}" --release "${RELEASE}"
+          mkosi --architecture "${ARCH}" --distribution "${DISTRIBUTION}" --release "${RELEASE}" --format=tar --compress-output=xz
 
       # - name: Upload raspbian
       #   uses: actions/upload-artifact@v3
