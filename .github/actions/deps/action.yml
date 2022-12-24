@@ -10,7 +10,11 @@ runs:
     run: |
       sudo apt-get update
       sudo apt-get install --assume-yes --no-install-recommends \
+        binfmt-support  \
+        qemu \
         qemu-user \
+        qemu-user-static \
         qemu-system-x86 \
         qemu-system-arm
+      update-binfmts --display
 
