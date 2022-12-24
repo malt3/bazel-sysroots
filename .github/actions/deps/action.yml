@@ -1,0 +1,16 @@
+name: setup-deps
+description: Install build dependencies
+
+runs:
+  using: composite
+  steps:
+
+  - name: Dependencies
+    shell: bash
+    run: |
+      sudo apt-get update
+      sudo apt-get install --assume-yes --no-install-recommends \
+        qemu-user \
+        qemu-system-x86 \
+        qemu-system-arm
+

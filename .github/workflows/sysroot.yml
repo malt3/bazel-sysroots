@@ -13,6 +13,9 @@ jobs:
       - name: Check out
         uses: actions/checkout@v3
 
+      - name: setup-build-deps
+        uses: ./.github/actions/deps
+
       - name: setup-mkosi
         uses: systemd/mkosi@5181ea7ac20c0bcb3116d296ab6b8b7a3380e16e
 
