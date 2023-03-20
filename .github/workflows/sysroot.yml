@@ -18,7 +18,7 @@ jobs:
         uses: ./.github/actions/deps
 
       - name: setup-mkosi
-        uses: systemd/mkosi@5181ea7ac20c0bcb3116d296ab6b8b7a3380e16e
+        uses: systemd/mkosi@80b496787c016b46c7d68a8a23a6d3f2a5605abb
 
       - name: split-os
         id: split-os
