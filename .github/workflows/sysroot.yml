@@ -38,8 +38,8 @@ jobs:
         run: |
           sudo mkosi --architecture "${ARCH}" --distribution "${DISTRIBUTION}" --release "${RELEASE}" --format=tar --compress-output=xz
 
-      # - name: Upload raspbian
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: raspbian
-      #     path: raspbian/image.zip
+      - name: Upload raspbian
+        uses: actions/upload-artifact@v3
+        with:
+          name: sysroot-${{ steps.split-os.outputs.distribution }}-${{ steps.split-os.outputs.release }}-${{ matrix.arch }}
+          path: image.tar.xz
