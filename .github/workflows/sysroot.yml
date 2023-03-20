@@ -8,7 +8,8 @@ jobs:
       fail-fast: false
       matrix:
         arch: [x86_64, aarch64]
-        os: [fedora~37, ubuntu~kinetic, ubuntu~jammy, debian~testing, debian~bullseye, arch~rolling]
+        # os: [fedora~37, ubuntu~kinetic, ubuntu~jammy, debian~testing, debian~bullseye, arch~rolling]
+        os: [fedora~37]
     steps:
       - name: Check out
         uses: actions/checkout@v3
